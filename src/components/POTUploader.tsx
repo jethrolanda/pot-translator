@@ -67,8 +67,8 @@ export default function POTUploader({ onFileLoaded }: POTUploaderProps) {
           border-2 border-dashed rounded-lg p-12 text-center transition-colors cursor-pointer
           ${
             dragActive
-              ? 'border-blue-500 bg-blue-50 dark:bg-blue-950'
-              : 'border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-900'
+              ? 'border-blue-500 bg-blue-50'
+              : 'border-gray-300 bg-gray-50'
           }
           ${loading ? 'opacity-50 cursor-not-allowed' : ''}
         `}
@@ -94,7 +94,7 @@ export default function POTUploader({ onFileLoaded }: POTUploaderProps) {
               <div className="text-lg font-medium">
                 Drag and drop your POT/PO file here, or click to select
               </div>
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+              <div className="text-sm text-gray-500">
                 Supports .pot and .po files
               </div>
             </>
