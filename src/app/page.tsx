@@ -103,6 +103,8 @@ export default function Home() {
             slot="top-banner"
             className="w-full"
             style={{ minHeight: "100px" }}
+            adClient="ca-pub-7467319035212340"
+            adSlot="8694537069"
           />
         </div>
 

@@ -1,6 +1,5 @@
 "use client";
-
-import { useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 
 interface AdBannerProps {
   slot?: string;
@@ -21,26 +20,59 @@ export default function AdBanner({
   adFormat = "auto",
   size
 }: AdBannerProps) {
-  useEffect(() => {
-    // Load Google AdSense script if adClient is provided
-    if (adClient && typeof window !== "undefined") {
-      const script = document.createElement("script");
-      script.src =
-        "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js";
-      script.async = true;
-      script.setAttribute("data-ad-client", adClient);
-      document.head.appendChild(script);
+  const [scriptLoaded, setScriptLoaded] = useState(false);
+  const adPushed = useRef(false);
 
-      // Initialize ads
+  // Load the AdSense script once
+  useEffect(() => {
+    if (!adClient || typeof window === "undefined") return;
+
+    // Check if script already exists
+    const existingScript = document.querySelector(
+      `script[data-ad-client="${adClient}"]`
+    );
+
+    if (existingScript) {
+      setScriptLoaded(true);
+      return;
+    }
+
+    // Create and load script
+    const script = document.createElement("script");
+    script.src = `https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${adClient}`;
+    script.async = true;
+    script.crossOrigin = "anonymous";
+    script.setAttribute("data-ad-client", adClient);
+
+    script.onload = () => {
+      setScriptLoaded(true);
+    };
+
+    script.onerror = () => {
+      console.error("Failed to load AdSense script");
+    };
+
+    document.head.appendChild(script);
+
+    // Cleanup function
+    return () => {
+      // Don't remove script on unmount as it's shared across components
+    };
+  }, [adClient]);
+
+  // Push to adsbygoogle after script loads
+  useEffect(() => {
+    if (scriptLoaded && !adPushed.current && typeof window !== "undefined") {
       try {
         ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push(
           {}
         );
+        adPushed.current = true;
       } catch (e) {
         console.error("AdSense error:", e);
       }
     }
-  }, [adClient]);
+  }, [scriptLoaded]);
 
   // If adClient is provided, render Google AdSense ad
   if (adClient && adSlot) {
