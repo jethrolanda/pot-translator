@@ -180,6 +180,8 @@ export default function Home() {
                   slot="sidebar"
                   className="w-full"
                   style={{ minHeight: "250px" }}
+                  adClient="ca-pub-7467319035212340"
+                  adSlot="8694537069"
                 />
               </div>
             </div>
@@ -192,6 +194,8 @@ export default function Home() {
             slot="in-content"
             className="w-full"
             style={{ minHeight: "100px" }}
+            adClient="ca-pub-7467319035212340"
+            adSlot="8694537069"
           />
         </div>
 
@@ -226,6 +230,8 @@ export default function Home() {
             slot="footer"
             className="w-full"
             style={{ minHeight: "100px" }}
+            adClient="ca-pub-7467319035212340"
+            adSlot="8694537069"
           />
         </div>
       </div>
